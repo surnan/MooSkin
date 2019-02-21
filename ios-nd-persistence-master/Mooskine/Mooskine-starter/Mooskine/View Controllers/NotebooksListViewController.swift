@@ -20,6 +20,12 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
         navigationItem.rightBarButtonItem = editButtonItem
         updateEditButtonState()
+        
+        
+        
+        
+        
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
