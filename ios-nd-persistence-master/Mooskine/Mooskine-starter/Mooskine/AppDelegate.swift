@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var dataController = DataController(modelName: "MooSkine")
+    var dataController = DataController(modelName: "Mooskine")
 
 
     
