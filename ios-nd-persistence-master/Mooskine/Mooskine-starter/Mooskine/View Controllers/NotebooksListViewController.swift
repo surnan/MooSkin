@@ -188,6 +188,7 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         if let vc = segue.destination as? NotesListViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 vc.notebook = notebook(at: indexPath)
+                vc.dataController = dataController
             }
         }
     }

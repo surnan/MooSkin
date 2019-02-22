@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NotesListViewController: UIViewController, UITableViewDataSource {
     /// A table view that displays a list of notes for a notebook
@@ -14,6 +15,10 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     /// The notebook whose notes are being displayed
     var notebook: Notebook!
+    
+    
+    var dataController: DataController!
+    
     
     var notes: [Note] = []
 
@@ -27,6 +32,20 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        let fetchRequest: NSFetchRequest<Note> = NSFetchRequest(entityName: "Note") //Also Valid
+        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+
+
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "notebook == %@", notebook)    //notebook also passed in
+        
+        if let results = try? dataController.viewContext.fetch(fetchRequest) {
+            notes = results
+            tableView.reloadData()
+        }
+        
+        
+        
         navigationItem.title = notebook.name
         navigationItem.rightBarButtonItem = editButtonItem
         updateEditButtonState()
@@ -45,6 +64,9 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     // MARK: - Actions
 
     @IBAction func addTapped(sender: Any) {
+        
+        
+        
         addNote()
     }
 
@@ -56,12 +78,37 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
         //TODO:-
 //        notebook.addNote()
-        tableView.insertRows(at: [IndexPath(row: numberOfNotes - 1, section: 0)], with: .fade)
+        
+        let noteToAdd = Note(context: dataController.viewContext)
+        noteToAdd.text = "\(notebook.name ?? "No NoteBook Found") .... New Note Create"
+        noteToAdd.creationDate = Date()
+        noteToAdd.notebook = notebook
+        
+        try? dataController.viewContext.save()
+        
+        
+        notes.append(noteToAdd)
+        
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
         updateEditButtonState()
     }
 
+    
+    
+    
+    
+    
     // Deletes the `Note` at the specified index path
     func deleteNote(at indexPath: IndexPath) {
+        
+        //let noteToDelete = notes[indexPath.row]   //also works
+        let noteToDelete = note(at: indexPath)
+        
+        
+        dataController.viewContext.delete(noteToDelete)
+        try? dataController.viewContext.save()
+        
+        notes.remove(at: indexPath.row)
         
         
         //TODO:-
