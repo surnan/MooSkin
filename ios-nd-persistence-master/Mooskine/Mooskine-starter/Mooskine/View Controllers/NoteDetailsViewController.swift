@@ -11,20 +11,21 @@ import UIKit
 class NoteDetailsViewController: UIViewController {
     /// A text view that displays a note's text
     @IBOutlet weak var textView: UITextView!
-
+    
     /// The note being displayed and edited
     var note: Note!
-
+    var dataController: DataController!
+    
     /// A closure that is run when the user asks to delete the current note
     var onDelete: (() -> Void)?
-
+    
     /// A date formatter for the view controller's title text
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
         return df
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +50,7 @@ extension NoteDetailsViewController {
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: deleteHandler))
         present(alert, animated: true, completion: nil)
     }
-
+    
     func deleteHandler(alertAction: UIAlertAction) {
         onDelete?()
     }
@@ -61,5 +62,8 @@ extension NoteDetailsViewController {
 extension NoteDetailsViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         note.text = textView.text
+        // try? note.managedObjectContext?.save() //Also works because notes context = view context
+        //This could bring drama if we have multiple contexts floating around
+        try? dataController.viewContext.save()
     }
 }
