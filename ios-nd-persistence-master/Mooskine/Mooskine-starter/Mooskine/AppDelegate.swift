@@ -18,11 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        
-        dataController.load() 
-        
-        
+        dataController.load()
+        let navigationController = window?.rootViewController as! UINavigationController
+        let notebooksListViewController = navigationController.topViewController as! NotebooksListViewController
+        notebooksListViewController.dataController = dataController
         return true
     }
 

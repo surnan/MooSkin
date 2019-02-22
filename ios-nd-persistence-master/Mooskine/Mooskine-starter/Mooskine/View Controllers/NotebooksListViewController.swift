@@ -14,18 +14,17 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
 
     /// The `Notebook` objects being presented
     var notebooks: [Notebook] = []
+    
+    var dataController: DataController!
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
         navigationItem.rightBarButtonItem = editButtonItem
         updateEditButtonState()
-        
-        
-        
-        
-        
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
