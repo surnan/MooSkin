@@ -20,6 +20,8 @@
 		03B269A01F2F8AAD00C7433C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B269981F2F837C00C7433C /* Cell.swift */; };
 		8462CDE1221F212600E2EFC2 /* Mooskine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8462CDDF221F212600E2EFC2 /* Mooskine.xcdatamodeld */; };
 		8462CDE3221F375200E2EFC2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8462CDE2221F375200E2EFC2 /* DataController.swift */; };
+		848920D32220742300A509CC /* Notebook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848920D22220742300A509CC /* Notebook+Extensions.swift */; };
+		848920D52220742F00A509CC /* Note+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848920D42220742F00A509CC /* Note+Extension.swift */; };
 		A76557E71F8BC1FB00EFF9B8 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A76557E51F8BC1AC00EFF9B8 /* OpenSans-Bold.ttf */; };
 		A76557E81F8BC1FB00EFF9B8 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A76557E61F8BC1AC00EFF9B8 /* OpenSans-Regular.ttf */; };
 		A76557E91F8BC1FB00EFF9B8 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A76557E41F8BC1AC00EFF9B8 /* OpenSans-Semibold.ttf */; };
@@ -53,6 +55,8 @@
 		03B269981F2F837C00C7433C /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		8462CDE0221F212600E2EFC2 /* Mooskine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Mooskine.xcdatamodel; sourceTree = "<group>"; };
 		8462CDE2221F375200E2EFC2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		848920D22220742300A509CC /* Notebook+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notebook+Extensions.swift"; sourceTree = "<group>"; };
+		848920D42220742F00A509CC /* Note+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+Extension.swift"; sourceTree = "<group>"; };
 		A76557E41F8BC1AC00EFF9B8 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		A76557E51F8BC1AC00EFF9B8 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		A76557E61F8BC1AC00EFF9B8 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 		03B2698C1F2F831700C7433C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				848920D1222073E400A509CC /* Managed Object Extensions */,
 				8462CDDF221F212600E2EFC2 /* Mooskine.xcdatamodeld */,
 				8462CDE2221F375200E2EFC2 /* DataController.swift */,
 			);
@@ -180,6 +185,15 @@
 				03B269981F2F837C00C7433C /* Cell.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		848920D1222073E400A509CC /* Managed Object Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				848920D22220742300A509CC /* Notebook+Extensions.swift */,
+				848920D42220742F00A509CC /* Note+Extension.swift */,
+			);
+			path = "Managed Object Extensions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +314,8 @@
 				03B2699C1F2F8AA100C7433C /* NoteDetailsViewController.swift in Sources */,
 				03B269A01F2F8AAD00C7433C /* Cell.swift in Sources */,
 				03B2699D1F2F8AA100C7433C /* NotesListViewController.swift in Sources */,
+				848920D32220742300A509CC /* Notebook+Extensions.swift in Sources */,
+				848920D52220742F00A509CC /* Note+Extension.swift in Sources */,
 				03B2699F1F2F8AAA00C7433C /* NoteCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
