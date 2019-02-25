@@ -28,8 +28,8 @@ class DataController {
                 fatalError((error?.localizedDescription)!)
             }
         }
-//        autoSaveViewContext(interval: 3)
-        autoSaveViewContext()
+        //        autoSaveViewContext(interval: 3)  //workds
+        //        autoSaveViewContext()             //workds
         completion?()
     }
 }
