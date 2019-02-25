@@ -15,35 +15,31 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
 
     /// The `Notebook` objects being presented
     var notebooks: [Notebook] = []
-    
     var dataController: DataController!
     
     
     
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
-        navigationItem.rightBarButtonItem = editButtonItem
-        
-        
-
+    fileprivate func reloadNotebooks() {
         let fetchRequest: NSFetchRequest<Notebook> = Notebook.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        
         if let results = try? dataController.viewContext.fetch(fetchRequest) {
             notebooks = results
             tableView.reloadData()
         }
-        
         updateEditButtonState()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
+        navigationItem.rightBarButtonItem = editButtonItem
+        reloadNotebooks()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)
             tableView.reloadRows(at: [indexPath], with: .fade)
@@ -100,10 +96,8 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         notebook.name = name
         
         try? dataController.viewContext.save()
-        notebooks.insert(notebook, at: 0)
+        reloadNotebooks()
         
-        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
-        updateEditButtonState()
     }
 
     /// Deletes the notebook at the specified index path
@@ -115,13 +109,6 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         //let temp = notebook(at: indexPath.row) //Also works
         dataController.viewContext.delete(notebookToDelete)
         try? dataController.viewContext.save()
-        
-        
-        
-        
-        
-        
-        
         
         notebooks.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
