@@ -17,9 +17,18 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
     var fetchedResultsController: NSFetchedResultsController<Notebook>!
     
     override func viewDidDisappear(_ animated: Bool) {
-        viewDidDisappear(animated)
+        super.viewDidDisappear(animated)
+//        viewDidDisappear(animated)
         fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
+    
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//    }
+//
+    
+    
     
     
     fileprivate func setupFetchedResultsController() {
@@ -39,11 +48,12 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
         super.viewDidLoad()
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
         navigationItem.rightBarButtonItem = editButtonItem
-        setupFetchedResultsController()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupFetchedResultsController()
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)
             tableView.reloadRows(at: [indexPath], with: .fade)
