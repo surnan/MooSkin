@@ -18,15 +18,10 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        viewDidDisappear(animated)
+//        NSFetchedResultsController<Notebook>.deleteCache(withName: "notebooks")
         fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
-    
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//    }
-//
+
     
     
     
@@ -35,7 +30,7 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         let fetchRequest: NSFetchRequest<Notebook> = Notebook.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "notebooks")
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
