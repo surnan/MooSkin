@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+class NotebooksListViewController: UIViewController, UITableViewDataSource {
     /// A table view that displays a list of notebooks
     @IBOutlet weak var tableView: UITableView!
 
@@ -158,6 +158,32 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
                 vc.notebook = fetchedResultsController.object(at: indexPath)
                 vc.dataController = dataController
             }
+        }
+    }
+}
+
+
+extension NotebooksListViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates() //start tableViewAnimations vs. tableView.reload()
+    }
+    
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()  //end tableViewAnimations vs. tableView.reload()
+    }
+    
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        default:
+            break
         }
     }
 }
