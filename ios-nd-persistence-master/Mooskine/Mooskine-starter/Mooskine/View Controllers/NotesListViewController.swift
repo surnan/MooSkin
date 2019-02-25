@@ -10,19 +10,13 @@ import UIKit
 import CoreData
 
 class NotesListViewController: UIViewController, UITableViewDataSource {
-    /// A table view that displays a list of notes for a notebook
     @IBOutlet weak var tableView: UITableView!
-
-    /// The notebook whose notes are being displayed
+    
     var notebook: Notebook!
-    
-    
     var dataController: DataController!
-    
     
     var notes: [Note] = []
 
-    /// A date formatter for date text in note cells
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
@@ -31,10 +25,8 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
 //        let fetchRequest: NSFetchRequest<Note> = NSFetchRequest(entityName: "Note") //Also Valid
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
-
 
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetchRequest.predicate = NSPredicate(format: "notebook == %@", notebook)    //notebook also passed in
@@ -43,9 +35,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
             notes = results
             tableView.reloadData()
         }
-        
-        
-        
         navigationItem.title = notebook.name
         navigationItem.rightBarButtonItem = editButtonItem
         updateEditButtonState()
@@ -53,68 +42,41 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
     }
 
-    // -------------------------------------------------------------------------
-    // MARK: - Actions
 
+    // MARK: - Actions
     @IBAction func addTapped(sender: Any) {
-        
-        
-        
         addNote()
     }
 
-    // -------------------------------------------------------------------------
+
     // MARK: - Editing
 
     // Adds a new `Note` to the end of the `notebook`'s `notes` array
     func addNote() {
-
-        //TODO:-
-//        notebook.addNote()
-        
         let noteToAdd = Note(context: dataController.viewContext)
         noteToAdd.text = "\(notebook.name ?? "No NoteBook Found") .... New Note Create"
         noteToAdd.creationDate = Date()
         noteToAdd.notebook = notebook
-        
         try? dataController.viewContext.save()
-        
-        
         notes.append(noteToAdd)
-        
         tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
         updateEditButtonState()
     }
 
     
-    
-    
-    
-    
     // Deletes the `Note` at the specified index path
     func deleteNote(at indexPath: IndexPath) {
-        
         //let noteToDelete = notes[indexPath.row]   //also works
         let noteToDelete = note(at: indexPath)
-        
-        
         dataController.viewContext.delete(noteToDelete)
         try? dataController.viewContext.save()
-        
         notes.remove(at: indexPath.row)
-        
-        
-        //TODO:-
-//        notebook.removeNote(at: indexPath.row)
-        
-        
         tableView.deleteRows(at: [indexPath], with: .fade)
         if numberOfNotes == 0 {
             setEditing(false, animated: true)
@@ -131,7 +93,7 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         tableView.setEditing(editing, animated: animated)
     }
 
-    // -------------------------------------------------------------------------
+
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -163,7 +125,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     }
 
     // Helpers
- 
     var numberOfNotes: Int { return notes.count }
 
     func note(at indexPath: IndexPath) -> Note {
@@ -172,7 +133,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     // -------------------------------------------------------------------------
     // MARK: - Navigation
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // If this is a NoteDetailsViewController, we'll configure its `Note`
         // and its delete action
@@ -188,6 +148,27 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
                     }
                 }
             }
+        }
+    }
+}
+
+extension NotesListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates() //start tableViewAnimations vs. tableView.reload()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()  //end tableViewAnimations vs. tableView.reload()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        default:
+            break
         }
     }
 }
