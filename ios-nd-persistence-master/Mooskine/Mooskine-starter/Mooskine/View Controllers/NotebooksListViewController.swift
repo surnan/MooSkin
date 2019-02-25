@@ -12,16 +12,9 @@ import CoreData
 class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     /// A table view that displays a list of notebooks
     @IBOutlet weak var tableView: UITableView!
-    
-    /// The `Notebook` objects being presented
-    //    var notebooks: [Notebook] = []
-    
-    
+
     var dataController: DataController!
-    
     var fetchedResultsController: NSFetchedResultsController<Notebook>!
-    
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         viewDidDisappear(animated)
@@ -57,18 +50,11 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
         }
     }
     
-    // -------------------------------------------------------------------------
-    // MARK: - Actions
     
+    // MARK: - Actions
     @IBAction func addTapped(sender: Any) {
         presentNewNotebookAlert()
     }
-    
-    // -------------------------------------------------------------------------
-    // MARK: - Editing
-    
-    /// Display an alert prompting the user to name a new notebook. Calls
-    /// `addNotebook(name:)`.
     func presentNewNotebookAlert() {
         let alert = UIAlertController(title: "New Notebook", message: "Enter a name for this notebook", preferredStyle: .alert)
         
@@ -81,7 +67,6 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
         }
         saveAction.isEnabled = false
         
-        // Add a text field
         alert.addTextField { textField in
             textField.placeholder = "Name"
             NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
@@ -100,8 +85,6 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
     
     /// Adds a new notebook to the end of the `notebooks` array
     func addNotebook(name: String) {
-        
-        
         let notebook = Notebook(context: dataController.viewContext)
         notebook.creationDate = Date()
         notebook.name = name
@@ -111,19 +94,12 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
     
     /// Deletes the notebook at the specified index path
     func deleteNotebook(at indexPath: IndexPath) {
-//        let notebookToDelete = notebooks[indexPath.row]
         let notebookToDelete = fetchedResultsController.object(at: indexPath)
-        
-        
-        
-        //let temp = notebook(at: indexPath.row) //Also works
         dataController.viewContext.delete(notebookToDelete)
         try? dataController.viewContext.save()
     }
     
     func updateEditButtonState() {
-//        navigationItem.rightBarButtonItem?.isEnabled = numberOfNotebooks > 0
-//        navigationItem.rightBarButtonItem?.isEnabled = fetchedResultsController.sections[0].numberOfObject > 0
         if let sections = fetchedResultsController.sections {
             navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
         }
@@ -134,7 +110,6 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
         tableView.setEditing(editing, animated: animated)
     }
     
-    // -------------------------------------------------------------------------
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -147,15 +122,9 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let aNotebook = notebook(at: indexPath)
-
         let aNotebook = fetchedResultsController.object(at: indexPath)
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: NotebookCell.defaultReuseIdentifier, for: indexPath) as! NotebookCell
-        
-        // Configure cell
         cell.nameLabel.text = aNotebook.name
-        
         if let count = aNotebook.notes?.count {
             let pageString = count == 1 ? "page" : "pages"
             cell.pageCountLabel.text = "\(count) \(pageString)"
@@ -170,22 +139,12 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource, NSFe
         }
     }
     
-    // Helper
-    
-//    var numberOfNotebooks: Int { return notebooks.count }
-//
-//    func notebook(at indexPath: IndexPath) -> Notebook {
-//        return notebooks[indexPath.row]
-//    }
-    
-    // -------------------------------------------------------------------------
+
     // MARK: - Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // If this is a NotesListViewController, we'll configure its `Notebook`
         if let vc = segue.destination as? NotesListViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
-//                vc.notebook = notebook(at: indexPath)
                 vc.notebook = fetchedResultsController.object(at: indexPath)
                 vc.dataController = dataController
             }
