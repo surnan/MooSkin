@@ -14,16 +14,13 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     
     var notebook: Notebook!
     var dataController: DataController!
-    
     var fetchedResultsController: NSFetchedResultsController<Note>!
-
 
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
         return df
     }()
-
 
     fileprivate func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
@@ -39,7 +36,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
             fatalError("Fetch could not be performed because: \(error)")
         }
     }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -49,7 +45,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,16 +60,11 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     }
     
     
-    
-    // MARK: - Actions
     @IBAction func addTapped(sender: Any) {
         addNote()
     }
 
 
-    // MARK: - Editing
-
-    // Adds a new `Note` to the end of the `notebook`'s `notes` array
     func addNote() {
         let noteToAdd = Note(context: dataController.viewContext)
         noteToAdd.text = "\(notebook.name ?? "No NoteBook Found") .... New Note Create"
@@ -84,7 +74,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     }
 
     
-    // Deletes the `Note` at the specified index path
     func deleteNote(at indexPath: IndexPath) {
         let noteToDelete = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(noteToDelete)
@@ -103,7 +92,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     }
 
 
-    // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1 //If first entry is NIL, then it's not an INT and can't be returned
     }
@@ -115,7 +103,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let aNote = fetchedResultsController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteCell.defaultReuseIdentifier, for: indexPath) as! NoteCell
-        // Configure cell
         cell.textPreviewLabel.text = aNote.text
         if let creationDate = aNote.creationDate {
         cell.dateLabel.text = dateFormatter.string(from: creationDate)
@@ -131,8 +118,6 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     }
 
 
-    // -------------------------------------------------------------------------
-    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? NoteDetailsViewController {
             if let indexPath = tableView.indexPathForSelectedRow {

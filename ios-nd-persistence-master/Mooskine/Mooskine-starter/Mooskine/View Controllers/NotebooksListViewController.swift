@@ -10,15 +10,12 @@ import UIKit
 import CoreData
 
 class NotebooksListViewController: UIViewController, UITableViewDataSource {
-    /// A table view that displays a list of notebooks
     @IBOutlet weak var tableView: UITableView!
-
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Notebook>!
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        NSFetchedResultsController<Notebook>.deleteCache(withName: "notebooks")
         fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
 
@@ -85,16 +82,13 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         present(alert, animated: true, completion: nil)
     }
     
-    /// Adds a new notebook to the end of the `notebooks` array
     func addNotebook(name: String) {
         let notebook = Notebook(context: dataController.viewContext)
         notebook.creationDate = Date()
         notebook.name = name
-        
         try? dataController.viewContext.save()
     }
     
-    /// Deletes the notebook at the specified index path
     func deleteNotebook(at indexPath: IndexPath) {
         let notebookToDelete = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(notebookToDelete)
@@ -112,11 +106,9 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         tableView.setEditing(editing, animated: animated)
     }
     
-    // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1 //If first entry is NIL, then it's not an INT and can't be returned
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -156,17 +148,13 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
 
 
 extension NotebooksListViewController: NSFetchedResultsControllerDelegate {
-    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates() //start tableViewAnimations vs. tableView.reload()
     }
     
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()  //end tableViewAnimations vs. tableView.reload()
     }
-    
-    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {

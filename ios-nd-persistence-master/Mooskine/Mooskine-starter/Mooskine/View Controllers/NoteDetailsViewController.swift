@@ -28,17 +28,10 @@ class NoteDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if let creationDate = note.creationDate {
             navigationItem.title = dateFormatter.string(from: creationDate)
         }
         textView.text = note.text
-        
-        
-        print("note = \(note!)")
-        
-        
-        
     }
     
     @IBAction func deleteNote(sender: Any) {
