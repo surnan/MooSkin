@@ -33,6 +33,12 @@ class NoteDetailsViewController: UIViewController {
             navigationItem.title = dateFormatter.string(from: creationDate)
         }
         textView.text = note.text
+        
+        
+        print("note = \(note!)")
+        
+        
+        
     }
     
     @IBAction func deleteNote(sender: Any) {

@@ -22,10 +22,7 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
 
-    
-    
-    
-    
+
     fileprivate func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Notebook> = Notebook.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -43,7 +40,6 @@ class NotebooksListViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "toolbar-cow"))
         navigationItem.rightBarButtonItem = editButtonItem
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

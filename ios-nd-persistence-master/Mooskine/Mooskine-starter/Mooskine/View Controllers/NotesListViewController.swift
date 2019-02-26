@@ -34,14 +34,8 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     
     fileprivate func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "notebook == %@", "asdfads")    //notebook also passed in
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
-        
-        let predicate: NSPredicate = NSPredicate(format: "<#T##String#>", <#T##args: CVarArg...##CVarArg#>)
-        fetchRequest.predicate = NSPredicate(format: "<#T##String#>", argumentArray: <#T##[Any]?#>)
-        
-        
-        
-        
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "notes")
         fetchedResultsController.delegate = self
@@ -118,9 +112,7 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let aNote = fetchedResultsController.object(at: indexPath)
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteCell.defaultReuseIdentifier, for: indexPath) as! NoteCell
-
         // Configure cell
         cell.textPreviewLabel.text = aNote.text
         if let creationDate = aNote.creationDate {
