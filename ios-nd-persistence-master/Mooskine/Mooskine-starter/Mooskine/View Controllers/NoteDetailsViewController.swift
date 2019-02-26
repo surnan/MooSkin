@@ -16,6 +16,7 @@ class NoteDetailsViewController: UIViewController {
     var note: Note!
     var dataController: DataController!
     
+    
     /// A closure that is run when the user asks to delete the current note
     var onDelete: (() -> Void)?
     
@@ -30,14 +31,9 @@ class NoteDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        
-        
         if let creationDate = note.creationDate {
             navigationItem.title = dateFormatter.string(from: creationDate)
         }
-        
         textView.attributedText = note.attributedText
         
         // keyboard toolbar configuration
@@ -46,6 +42,7 @@ class NoteDetailsViewController: UIViewController {
     }
     
     @IBAction func deleteNote(sender: Any) {
+        print("Triggered")
         presentDeleteNotebookAlert()
     }
 }
@@ -157,6 +154,7 @@ extension NoteDetailsViewController {
         
         
         
+        sleep(5)
         
         
         textView.attributedText = newText
@@ -178,6 +176,7 @@ extension NoteDetailsViewController {
         present(alert, animated: true, completion: nil)
     }
 }
+
 
 
 /*

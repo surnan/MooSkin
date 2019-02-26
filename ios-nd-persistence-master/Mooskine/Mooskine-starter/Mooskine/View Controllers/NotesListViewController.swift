@@ -55,8 +55,8 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
-        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
+//        NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
+//        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
     
     
