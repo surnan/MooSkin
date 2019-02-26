@@ -31,7 +31,11 @@ class NoteDetailsViewController: UIViewController {
         if let creationDate = note.creationDate {
             navigationItem.title = dateFormatter.string(from: creationDate)
         }
-        textView.text = note.text
+        
+        
+        textView.attributedText = note.attributedText
+//        textView.text = note.text
+        
     }
     
     @IBAction func deleteNote(sender: Any) {
@@ -60,7 +64,13 @@ extension NoteDetailsViewController {
 
 extension NoteDetailsViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        note.text = textView.text
+
+        
+        
+        note.attributedText = textView.attributedText
+//        note.text = textView.text
+        
+        
         // try? note.managedObjectContext?.save() //Also works because notes context = view context
         //This could bring drama if we have multiple contexts floating around
         try? dataController.viewContext.save()

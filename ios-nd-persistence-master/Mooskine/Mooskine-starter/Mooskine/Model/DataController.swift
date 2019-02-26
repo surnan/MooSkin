@@ -14,6 +14,7 @@ class DataController {
     
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
+        
     }
     
     
