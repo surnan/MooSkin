@@ -20,6 +20,7 @@
 		03B269A01F2F8AAD00C7433C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B269981F2F837C00C7433C /* Cell.swift */; };
 		844F5A16222595A000AA9D82 /* UpdateToAttributedStrings.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 844F5A15222595A000AA9D82 /* UpdateToAttributedStrings.xcmappingmodel */; };
 		844F5A182225965600AA9D82 /* NSEntityMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F5A172225965600AA9D82 /* NSEntityMigrationPolicy.swift */; };
+		844F5A1A2225A6AD00AA9D82 /* Pathifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F5A192225A6AD00AA9D82 /* Pathifier.swift */; };
 		8462CDE1221F212600E2EFC2 /* Mooskine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8462CDDF221F212600E2EFC2 /* Mooskine.xcdatamodeld */; };
 		8462CDE3221F375200E2EFC2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8462CDE2221F375200E2EFC2 /* DataController.swift */; };
 		848920D32220742300A509CC /* Notebook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848920D22220742300A509CC /* Notebook+Extensions.swift */; };
@@ -58,6 +59,7 @@
 		844F5A142225920500AA9D82 /* Mooskine 2-AttributedString.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Mooskine 2-AttributedString.xcdatamodel"; sourceTree = "<group>"; };
 		844F5A15222595A000AA9D82 /* UpdateToAttributedStrings.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = UpdateToAttributedStrings.xcmappingmodel; sourceTree = "<group>"; };
 		844F5A172225965600AA9D82 /* NSEntityMigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityMigrationPolicy.swift; sourceTree = "<group>"; };
+		844F5A192225A6AD00AA9D82 /* Pathifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pathifier.swift; sourceTree = "<group>"; };
 		8462CDE0221F212600E2EFC2 /* Mooskine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Mooskine.xcdatamodel; sourceTree = "<group>"; };
 		8462CDE2221F375200E2EFC2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		848920D22220742300A509CC /* Notebook+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notebook+Extensions.swift"; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				844F5A172225965600AA9D82 /* NSEntityMigrationPolicy.swift */,
 				844F5A15222595A000AA9D82 /* UpdateToAttributedStrings.xcmappingmodel */,
 				8462CDE2221F375200E2EFC2 /* DataController.swift */,
+				844F5A192225A6AD00AA9D82 /* Pathifier.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				03B2699B1F2F8AA100C7433C /* NotebooksListViewController.swift in Sources */,
 				8462CDE3221F375200E2EFC2 /* DataController.swift in Sources */,
 				03B2699C1F2F8AA100C7433C /* NoteDetailsViewController.swift in Sources */,
+				844F5A1A2225A6AD00AA9D82 /* Pathifier.swift in Sources */,
 				03B269A01F2F8AAD00C7433C /* Cell.swift in Sources */,
 				03B2699D1F2F8AA100C7433C /* NotesListViewController.swift in Sources */,
 				848920D32220742300A509CC /* Notebook+Extensions.swift in Sources */,
