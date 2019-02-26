@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import CoreData
+
+
 
 class NoteDetailsViewController: UIViewController {
     /// A text view that displays a note's text
@@ -145,22 +148,33 @@ extension NoteDetailsViewController {
     }
     
     @IBAction func cowTapped(sender: Any) {
-        let newText = textView.attributedText.mutableCopy() as! NSMutableAttributedString
         
+        let backgroundContext: NSManagedObjectContext! = dataController.backgroundContext
+
+        let newText = textView.attributedText.mutableCopy() as! NSMutableAttributedString
         let selectedRange = textView.selectedRange
         let selectedText = textView.attributedText.attributedSubstring(from: selectedRange)
-        let cowText = Pathifier.makeMutableAttributedString(for: selectedText, withFont: UIFont(name: "AvenirNext-Heavy", size: 56)!, withPatternImage: #imageLiteral(resourceName: "texture-cow"))
-        newText.replaceCharacters(in: selectedRange, with: cowText)
         
         
+        //Can't use note that's associated with 'viewContext' right before try? dataController.viewContext.save()
+        //Instead of fetching Note again on backgroundContext and then using predicate to make sure to get the same exact object
+        //Simpler, easier: Every managed object has an identifier that's consistent across contexts
+        //  //and it can be accesses through objectID property
+        let noteID = note.objectID
         
-        sleep(5)
-        
-        
-        textView.attributedText = newText
-        textView.selectedRange = NSMakeRange(selectedRange.location, 1)
-        note.attributedText = textView.attributedText
-        try? dataController.viewContext.save()
+        backgroundContext.perform {
+            let backgroundNote = backgroundContext.object(with: noteID) as! Note
+            
+            let cowText = Pathifier.makeMutableAttributedString(for: selectedText, withFont: UIFont(name: "AvenirNext-Heavy", size: 56)!, withPatternImage: #imageLiteral(resourceName: "texture-cow"))
+            newText.replaceCharacters(in: selectedRange, with: cowText)
+            
+            sleep(5)
+            
+//            backgroundNote.attributedText = textView.attributedText   //associated with 'viewContext'
+            
+            backgroundNote.attributedText = newText
+            try? backgroundContext.save()
+        }
     }
     
     // called by 2
