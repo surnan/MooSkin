@@ -23,6 +23,8 @@ class DataController {
     }
     
     
+    
+    
     func load(completion: (()->Void)? = nil){
         persistentContainer.loadPersistentStores { (persistentStoreDescription, error) in
             guard error == nil else {
