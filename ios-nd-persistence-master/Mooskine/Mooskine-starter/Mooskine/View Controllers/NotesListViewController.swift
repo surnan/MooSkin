@@ -24,17 +24,11 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         return df
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = notebook.name
-        navigationItem.rightBarButtonItem = editButtonItem
-    }
-    
-    
-    
+
     fileprivate func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "notebook == %@", "asdfads")    //notebook also passed in
+        let predicate = NSPredicate(format: "notebook == %@", notebook)
+        fetchRequest.predicate = predicate
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "notes")
@@ -46,19 +40,27 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         }
     }
 
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupFetchedResultsController()
-        
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
     }
 
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupFetchedResultsController()
+        navigationItem.title = notebook.name
+        navigationItem.rightBarButtonItem = editButtonItem
+    }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
         fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
     }
     
