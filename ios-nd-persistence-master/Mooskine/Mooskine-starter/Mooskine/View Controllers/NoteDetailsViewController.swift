@@ -20,6 +20,10 @@ class NoteDetailsViewController: UIViewController {
     var dataController: DataController!
     
     
+    var saveObserverToken: Any?     //observer from the Merging in DataController.configureContext
+    
+    
+    
     /// A closure that is run when the user asks to delete the current note
     var onDelete: (() -> Void)?
     
@@ -42,7 +46,15 @@ class NoteDetailsViewController: UIViewController {
         // keyboard toolbar configuration
         configureToolbarItems()
         configureTextViewInputAccessoryView()
+        addSaveNotificationObserver() //from Extension
     }
+    
+    
+    
+    deinit {
+        removeSaveNotificationObserver()
+    }
+    
     
     @IBAction func deleteNote(sender: Any) {
         print("Triggered")
@@ -203,3 +215,26 @@ extension NoteDetailsViewController {
  configureTextViewInputAccessoryView()
  }
 */
+
+extension NoteDetailsViewController {
+    
+    func addSaveNotificationObserver(){
+        removeSaveNotificationObserver()
+        saveObserverToken = NotificationCenter.default.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: dataController.viewContext, queue: nil, using: handleSaveNotification(notification: ))
+        
+    }
+    
+    func removeSaveNotificationObserver(){
+        if let token = saveObserverToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
+    
+    func handleSaveNotification(notification: Notification){
+        DispatchQueue.main.async {
+            self.textView.attributedText = self.note.attributedText
+        }
+        
+    }
+    
+}
