@@ -128,10 +128,6 @@ extension NoteDetailsViewController {
     
     @IBAction func redTapped(sender: Any) {
         let newText = textView.attributedText.mutableCopy() as! NSMutableAttributedString
-        
-//        newText.addAttribute(.font, value: UIFont(name: "OpenSans-Bold", size: 22)!, range: textView.selectedRange)
-        
-        
         let attributes: [NSAttributedStringKey: Any] = [
             .foregroundColor: UIColor.red,
             .underlineStyle: 1,
@@ -176,14 +172,10 @@ extension NoteDetailsViewController {
         
         backgroundContext.perform {
             let backgroundNote = backgroundContext.object(with: noteID) as! Note
-            
             let cowText = Pathifier.makeMutableAttributedString(for: selectedText, withFont: UIFont(name: "AvenirNext-Heavy", size: 56)!, withPatternImage: #imageLiteral(resourceName: "texture-cow"))
             newText.replaceCharacters(in: selectedRange, with: cowText)
-            
-            sleep(5)
-            
+//            sleep(5)
 //            backgroundNote.attributedText = textView.attributedText   //associated with 'viewContext'
-            
             backgroundNote.attributedText = newText
             try? backgroundContext.save()
         }
@@ -203,21 +195,7 @@ extension NoteDetailsViewController {
     }
 }
 
-
-
-/*
- var keyboardToolbar: UIToolbar?
- 
- override func viewDidLoad() {
-    .
-    
- configureToolbarItems()
- configureTextViewInputAccessoryView()
- }
-*/
-
 extension NoteDetailsViewController {
-    
     func addSaveNotificationObserver(){
         removeSaveNotificationObserver()
         saveObserverToken = NotificationCenter.default.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: dataController.viewContext, queue: nil, using: handleSaveNotification(notification: ))
@@ -234,7 +212,5 @@ extension NoteDetailsViewController {
         DispatchQueue.main.async {
             self.textView.attributedText = self.note.attributedText
         }
-        
     }
-    
 }

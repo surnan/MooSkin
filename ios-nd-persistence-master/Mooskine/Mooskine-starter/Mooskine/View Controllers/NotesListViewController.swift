@@ -15,13 +15,13 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
     var notebook: Notebook!
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Note>!
-
+    
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
         return df
     }()
-
+    
     fileprivate func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         let predicate = NSPredicate(format: "notebook == %@", notebook)
@@ -52,35 +52,35 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         navigationItem.title = notebook.name
         navigationItem.rightBarButtonItem = editButtonItem
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
-//        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
+        
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
+        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
     }
     
     
     @IBAction func addTapped(sender: Any) {
         addNote()
     }
-
-
+    
+    
     func addNote() {
         let noteToAdd = Note(context: dataController.viewContext)
-       
-        
-        
         noteToAdd.attributedText = NSAttributedString(string: "\(notebook.name ?? "No NoteBook Found") .... New Note Create")
-//noteToAdd.text = "\(notebook.name ?? "No NoteBook Found") .... New Note Create"
-        
-        
-        
-        
+        //noteToAdd.text = "\(notebook.name ?? "No NoteBook Found") .... New Note Create"
         noteToAdd.creationDate = Date()
         noteToAdd.notebook = notebook
         try? dataController.viewContext.save()
     }
-
+    
     
     func deleteNote(at indexPath: IndexPath) {
         let noteToDelete = fetchedResultsController.object(at: indexPath)
@@ -98,41 +98,35 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
     }
-
-
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1 //If first entry is NIL, then it's not an INT and can't be returned
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let aNote = fetchedResultsController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteCell.defaultReuseIdentifier, for: indexPath) as! NoteCell
-   
-        
-        
-//        cell.textPreviewLabel.text = aNote.text
+        //        cell.textPreviewLabel.text = aNote.text
         cell.textPreviewLabel.attributedText = aNote.attributedText
-
-        
-        
         if let creationDate = aNote.creationDate {
-        cell.dateLabel.text = dateFormatter.string(from: creationDate)
+            cell.dateLabel.text = dateFormatter.string(from: creationDate)
         }
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete: deleteNote(at: indexPath)
         default: () // Unsupported
         }
     }
-
-
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? NoteDetailsViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
