@@ -53,17 +53,15 @@ class NotesListViewController: UIViewController, UITableViewDataSource {
         navigationItem.rightBarButtonItem = editButtonItem
     }
     
+    
+    
+    deinit {
+        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
         NSFetchedResultsController<Notebook>.deleteCache(withName: "notes")
-        fetchedResultsController = nil  //Must be reset after leaving view.  Notifications
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
     }
     
     
